@@ -60,3 +60,15 @@ await tx.wait();
 
 - 受取人の数が多すぎるとガスコストが高くなる可能性があります。受取人リストは最大 100 人までと制限しています。
 - ERC20 トークンの分配ではなく、ネイティブトークン（ETH）の分配に対応しています。
+
+## deployment
+
+### polygon amoy
+
+```bash
+npx hardhat run scripts/deploy.js --network hardhat
+npx hardhat run scripts/deploy.js --network amoy_metamask
+npx hardhat verify --network amoy_metamask 0xe915010848E4E9ECC2669C02CE887A170e55406e
+```
+
+[Polygonscan amoy](https://amoy.polygonscan.com/address/0xe915010848E4E9ECC2669C02CE887A170e55406e)
