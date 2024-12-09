@@ -69,7 +69,7 @@ const web3_alchemy = createAlchemyWeb3(alchemyHTTPS);
 ////// send functions ///////////////////
 /////////////////////////////////////////
 
-const sendTx = async (_to, _tx, _signer, _gasLimit) => {
+const sendTx = async (_to, _tx, _signer, _gasLimit, _value) => {
   // check toAddress
   const toAddress = web3_alchemy.utils.toChecksumAddress(_to);
   console.log(" toAddress:", toAddress);
@@ -107,6 +107,7 @@ const sendTx = async (_to, _tx, _signer, _gasLimit) => {
       from: _signer,
       data: dataABI,
       gas: gasHex,
+      value: _value,
     })
     .once("transactionHash", (txhash) => {
       console.log(` Send transaction ...`);
@@ -128,8 +129,8 @@ async function _Splitter(addr_list, amount, signer) {
 
   try {
     console.log(`_Splitter::addr_list::${addr_list}, amount::${amount}`);
-    const tx = splitter.methods.splitNativeTokens(addr_list, amount);
-    const receipt = await sendTx(SPLITTER_CA, tx, signer, 1000000);
+    const tx = splitter.methods.splitNativeTokens(addr_list);
+    const receipt = await sendTx(SPLITTER_CA, tx, signer, 2000000, amount);
     console.log(`_Splitter::receipt::`, receipt);
 
     return receipt;
@@ -177,7 +178,7 @@ async function SplitTransfer({ addr_list, amount }) {
 /////////////////////////////////////////
 
 (async () => {
-  const amount = 1;
+  const amount = 0.1;
   const weiAmount = await web3.utils.toWei(amount.toString(), "ether");
 
   await SplitTransfer({
