@@ -93,4 +93,9 @@ npx hardhat run scripts/deploy_MAINNET.js --network polygon_metamask_mainnet
 npx hardhat verify --network polygon_metamask_mainnet 0xa7dbFcB08a435131d725942e1cbC51C1Ec18Fd09 0x1FC9bace20c2a481B8eF81d961E7E5742A075fDe
 ```
 
-[Polygonscan mainnet](https://polygonscan.com/address/0xa7dbFcB08a435131d725942e1cbC51C1Ec18Fd0
+| 項目                 | アドレス                                   | 備考          |
+| -------------------- | ------------------------------------------ | ------------- |
+| コントラクトアドレス | 0xa7dbFcB08a435131d725942e1cbC51C1Ec18Fd09 |               |
+| オーナーアドレス     | 0x1FC9bace20c2a481B8eF81d961E7E5742A075fDe | FB OPT mahiro |
+
+[Polygonscan mainnet](https://polygonscan.com/address/0xa7dbFcB08a435131d725942e1cbC51C1Ec18Fd09)
