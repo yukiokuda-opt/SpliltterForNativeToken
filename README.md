@@ -71,31 +71,34 @@ npx hardhat run scripts/deploy.js --network amoy_metamask
 npx hardhat verify --network amoy_metamask 0xe915010848E4E9ECC2669C02CE887A170e55406e
 ```
 
-[Polygonscan amoy](https://amoy.polygonscan.com/address/0xe915010848E4E9ECC2669C02CE887A170e55406e)
+| 項目                 | アドレス                                   | 備考                   | Link                                                                                                |
+| -------------------- | ------------------------------------------ | ---------------------- | --------------------------------------------------------------------------------------------------- |
+| コントラクトアドレス | 0xe915010848E4E9ECC2669C02CE887A170e55406e | deployed on 2024/12/05 | [Polygonscan amoy](https://amoy.polygonscan.com/address/0xe915010848E4E9ECC2669C02CE887A170e55406e) |
 
 ### polygon amoy (version 2024/12/11)
 
 - Add Ownable and the emergencyWithdraw function
 
-```
+```bash
 npx hardhat run scripts/deploy.js --network hardhat
 npx hardhat run scripts/deploy.js --network amoy_metamask
 npx hardhat verify --network amoy_metamask 0x926CEc7BA13521945B9Acafb6e6B7dB0AFcc8d99 0x46FA7F84edcED825F8F8E237fbf1B8C5954C2E0E
 ```
 
-[Polygonscan amoy](https://amoy.polygonscan.com/address/0x926CEc7BA13521945B9Acafb6e6B7dB0AFcc8d99)
+| 項目                 | アドレス                                   | 備考                   | Link                                                                                                |
+| -------------------- | ------------------------------------------ | ---------------------- | --------------------------------------------------------------------------------------------------- |
+| コントラクトアドレス | 0x926CEc7BA13521945B9Acafb6e6B7dB0AFcc8d99 | deployed on 2024/12/11 | [Polygonscan amoy](https://amoy.polygonscan.com/address/0x926CEc7BA13521945B9Acafb6e6B7dB0AFcc8d99) |
+| オーナーアドレス     | 0x46FA7F84edcED825F8F8E237fbf1B8C5954C2E0E | FB testnet1 ray        |
 
 ### polygon mainnet (version 2024/12/11)
 
-```
+```bash
 npx hardhat run scripts/deploy_MAINNET.js --network hardhat
 npx hardhat run scripts/deploy_MAINNET.js --network polygon_metamask_mainnet
 npx hardhat verify --network polygon_metamask_mainnet 0xa7dbFcB08a435131d725942e1cbC51C1Ec18Fd09 0x1FC9bace20c2a481B8eF81d961E7E5742A075fDe
 ```
 
-| 項目                 | アドレス                                   | 備考          |
-| -------------------- | ------------------------------------------ | ------------- |
-| コントラクトアドレス | 0xa7dbFcB08a435131d725942e1cbC51C1Ec18Fd09 |               |
-| オーナーアドレス     | 0x1FC9bace20c2a481B8eF81d961E7E5742A075fDe | FB OPT mahiro |
-
-[Polygonscan mainnet](https://polygonscan.com/address/0xa7dbFcB08a435131d725942e1cbC51C1Ec18Fd09)
+| 項目                 | アドレス                                   | 備考                   | Link                                                                                              |
+| -------------------- | ------------------------------------------ | ---------------------- | ------------------------------------------------------------------------------------------------- |
+| コントラクトアドレス | 0xa7dbFcB08a435131d725942e1cbC51C1Ec18Fd09 | deployed on 2024/12/11 | [Polygonscan mainnet](https://polygonscan.com/address/0xa7dbFcB08a435131d725942e1cbC51C1Ec18Fd09) |
+| オーナーアドレス     | 0x1FC9bace20c2a481B8eF81d961E7E5742A075fDe | FB OPT mahiro          |
