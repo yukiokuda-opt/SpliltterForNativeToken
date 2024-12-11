@@ -63,7 +63,7 @@ await tx.wait();
 
 ## deployment
 
-### polygon amoy
+### polygon amoy (version 2024/12/05)
 
 ```bash
 npx hardhat run scripts/deploy.js --network hardhat
@@ -72,3 +72,25 @@ npx hardhat verify --network amoy_metamask 0xe915010848E4E9ECC2669C02CE887A170e5
 ```
 
 [Polygonscan amoy](https://amoy.polygonscan.com/address/0xe915010848E4E9ECC2669C02CE887A170e55406e)
+
+### polygon amoy (version 2024/12/11)
+
+- Add Ownable and the emergencyWithdraw function
+
+```
+npx hardhat run scripts/deploy.js --network hardhat
+npx hardhat run scripts/deploy.js --network amoy_metamask
+npx hardhat verify --network amoy_metamask 0x926CEc7BA13521945B9Acafb6e6B7dB0AFcc8d99 0x46FA7F84edcED825F8F8E237fbf1B8C5954C2E0E
+```
+
+[Polygonscan amoy](https://amoy.polygonscan.com/address/0x926CEc7BA13521945B9Acafb6e6B7dB0AFcc8d99)
+
+### polygon mainnet (version 2024/12/11)
+
+```
+npx hardhat run scripts/deploy_MAINNET.js --network hardhat
+npx hardhat run scripts/deploy_MAINNET.js --network polygon_metamask_mainnet
+npx hardhat verify --network polygon_metamask_mainnet 0xa7dbFcB08a435131d725942e1cbC51C1Ec18Fd09 0x1FC9bace20c2a481B8eF81d961E7E5742A075fDe
+```
+
+[Polygonscan mainnet](https://polygonscan.com/address/0xa7dbFcB08a435131d725942e1cbC51C1Ec18Fd0

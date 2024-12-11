@@ -2,10 +2,16 @@
 pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract Splitter is ReentrancyGuard {
+contract Splitter is ReentrancyGuard, Ownable {
     event Split(address indexed sender, uint256 totalAmount, uint256 recipientCount);
     event Refund(address indexed sender, uint256 amount);
+    event EmergencyWithdraw(address indexed owner, uint256 amount);
+
+    constructor(address initialOwner) Ownable(initialOwner) {
+        require(initialOwner != address(0), "Invalid owner address");
+    }
 
     function splitNativeTokens(address[] memory recipients) external payable nonReentrant {
         require(recipients.length > 0, "Recipients list is empty");
@@ -30,4 +36,17 @@ contract Splitter is ReentrancyGuard {
 
         emit Split(msg.sender, msg.value, recipients.length);
     }
+
+    function emergencyWithdraw() external onlyOwner nonReentrant {
+        uint256 contractBalance = address(this).balance;
+        require(contractBalance > 0, "No funds to withdraw");
+
+        (bool success, ) = payable(owner()).call{value: contractBalance}("");
+        require(success, "Withdrawal failed");
+
+        emit EmergencyWithdraw(owner(), contractBalance);
+    }
+
+    fallback() external payable {}
+    receive() external payable {}
 }

@@ -47,10 +47,15 @@ module.exports = {
       url: "https://rpc.ankr.com/polygon_amoy",
       accounts: [`0x${process.env.METAMASK_PRIVATE_KEY}`],
     },
+    polygon_metamask_mainnet: {
+      url: "https://rpc.ankr.com/polygon",
+      accounts: [`0x${process.env.METAMASK_PRIVATE_KEY_MAINNET}`],
+    },
   },
   etherscan: {
     apiKey: {
       amoy_metamask: process.env.POLYGONSCAN_API_KEY,
+      polygon: process.env.POLYGONSCAN_API_KEY,
     },
     customChains: [
       {

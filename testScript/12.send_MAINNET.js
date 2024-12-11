@@ -19,38 +19,36 @@ const { createAlchemyWeb3 } = require("@alch/alchemy-web3");
 // -------------------COMMON----------------------- //
 
 //// address
-const ADDR_ALICE = process.env.ADDR_ALICE;
-const ADDR_BOB = process.env.ADDR_BOB;
-const ADDR_ELEN = process.env.ADDR_ELEN;
-const ADDR_FRIEREN = process.env.ADDR_FRIEREN;
-const ADDR_GIORNO = process.env.ADDR_GIORNO;
+const ADDR_ALICE = process.env.ADDR_ALICE_MAINNET;
+const ADDR_BOB = process.env.ADDR_BOB_MAINNET;
+const ADDR_CAROL = process.env.ADDR_CAROL_MAINNET;
 
 //// token
-const SPLITTER_CA = process.env.SPLITTER_CA;
+const SPLITTER_CA = process.env.SPLITTER_CA_MAINNET;
 const SPLITTER_ABI =
   require("../artifacts/contracts/splitter.sol/Splitter.json").abi;
 
 //// explorer
-const EXPLOERE = process.env.EXPLOERE;
+const EXPLOERE = process.env.EXPLOERE_MAINNET;
 
 //// fireblocks
-const chainId = ChainId.POLYGON_AMOY; // Polygon Testnet(amoy)
-const rpcUrl = process.env.POLYGON_RPC_URL;
-const BASE_ASSET_ID = process.env.FIREBLOCKS_ASSET_ID;
+const chainId = ChainId.POLYGON; // Polygon Testnet(amoy)
+const rpcUrl = process.env.POLYGON_RPC_URL_MAINNET;
+const BASE_ASSET_ID = process.env.FIREBLOCKS_ASSET_ID_MAINNET;
 const assetId = BASE_ASSET_ID;
 
 // -------------------FIREBLOCKS------------------- //
 //// fireblocks - SDK
 const fb_apiSecret = fs.readFileSync(
-  path.resolve("fireblocks_secret_SIGNER.key"),
+  path.resolve("FB-API-Cosigner-mainnet-OPT-SIGNER01_secret.key"),
   "utf8"
 );
-const fb_apiKey = process.env.FIREBLOCKS_API_KEY_SIGNER;
-const fb_base_url = process.env.FIREBLOCKS_URL;
+const fb_apiKey = process.env.FIREBLOCKS_API_KEY_SIGNER_MAINNET;
+const fb_base_url = process.env.FIREBLOCKS_URL_MAINNET;
 const fireblocks = new FireblocksSDK(fb_apiSecret, fb_apiKey, fb_base_url);
 
 //// fireblocks - web3 provider - service owner
-const fb_vaultId = process.env.FIREBLOCKS_VID_SOURCE;
+const fb_vaultId = process.env.FIREBLOCKS_VID_SOURCE_MAINNET;
 const eip1193Provider = new FireblocksWeb3Provider({
   privateKey: fb_apiSecret,
   apiKey: fb_apiKey,
@@ -178,12 +176,11 @@ async function SplitTransfer({ addr_list, amount }) {
 /////////////////////////////////////////
 
 (async () => {
-  const amount = 0.03;
+  const amount = 0.003;
   const weiAmount = await web3.utils.toWei(amount.toString(), "ether");
 
   await SplitTransfer({
-    //addr_list: [ADDR_ALICE, ADDR_BOB, ADDR_ELEN, ADDR_FRIEREN, ADDR_GIORNO],
-    addr_list: [ADDR_ALICE, ADDR_BOB, ADDR_ELEN],
+    addr_list: [ADDR_ALICE, ADDR_BOB, ADDR_CAROL],
     amount: weiAmount,
   });
 

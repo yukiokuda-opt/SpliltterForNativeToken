@@ -10,16 +10,38 @@ describe("Splitter コントラクト", function () {
   let addr3;
 
   beforeEach(async function () {
-    Splitter = await ethers.getContractFactory("Splitter");
-    splitter = await Splitter.deploy();
-    await splitter.waitForDeployment();
-    console.log("Splitter Address:", splitter.target);
-
-    [owner, addr1, addr2, addr3] = await ethers.getSigners();
+    [owner, distributor, addr1, addr2, addr3] = await ethers.getSigners();
     console.log("Owner Address:", owner.address);
+    console.log("Distributor Address:", distributor.address);
     console.log("Address 1:", addr1.address);
     console.log("Address 2:", addr2.address);
     console.log("Address 3:", addr3.address);
+
+    Splitter = await ethers.getContractFactory("Splitter");
+    splitter = await Splitter.deploy(owner.address);
+    await splitter.waitForDeployment();
+    console.log("Splitter Address:", splitter.target);
+  });
+
+  describe("Ownable 機能", function () {
+    it("指定したアドレスがオーナーであること", async function () {
+      console.log("contract owner(original):", await splitter.owner());
+      expect(await splitter.owner()).to.equal(owner.address);
+    });
+
+    it("オーナーを変更できること", async function () {
+      await splitter.connect(owner).transferOwnership(addr1.address);
+      console.log("contract owner(changed):", await splitter.owner());
+      expect(await splitter.owner()).to.equal(addr1.address);
+    });
+
+    it("非オーナーがオーナー専用関数を呼び出せないこと", async function () {
+      console.log("contract owner(before):", await splitter.owner());
+      await expect(splitter.connect(addr2).transferOwnership(addr2.address))
+        .to.be.revertedWithCustomError(splitter, "OwnableUnauthorizedAccount")
+        .withArgs(addr2.address);
+      console.log("contract owner(after):", await splitter.owner());
+    });
   });
 
   describe("splitNativeTokens 関数", function () {
@@ -37,11 +59,11 @@ describe("Splitter コントラクト", function () {
 
       await expect(
         splitter
-          .connect(owner)
+          .connect(distributor)
           .splitNativeTokens(recipients, { value: sendValue })
       )
         .to.emit(splitter, "Split")
-        .withArgs(owner.address, sendValue, recipients.length);
+        .withArgs(distributor.address, sendValue, recipients.length);
 
       const bal1After = await ethers.provider.getBalance(addr1.address);
       const bal2After = await ethers.provider.getBalance(addr2.address);
@@ -61,7 +83,7 @@ describe("Splitter コントラクト", function () {
 
       await expect(
         splitter
-          .connect(owner)
+          .connect(distributor)
           .splitNativeTokens(recipients, { value: sendValue })
       ).to.be.revertedWith("Too many recipients");
     });
@@ -72,7 +94,7 @@ describe("Splitter コントラクト", function () {
 
       await expect(
         splitter
-          .connect(owner)
+          .connect(distributor)
           .splitNativeTokens(recipients, { value: sendValue })
       ).to.be.revertedWith("Invalid recipient address");
     });
@@ -89,9 +111,55 @@ describe("Splitter コントラクト", function () {
 
       await expect(
         splitter
-          .connect(owner)
+          .connect(distributor)
           .splitNativeTokens(recipients, { value: sendValue })
       ).to.be.revertedWith("Transfer failed");
+    });
+  });
+
+  describe("emergencyWithdraw関数", function () {
+    it("emergencyWithdraw関数が正しく動作することを確認する", async function () {
+      // まず、コントラクトに資金を送る
+      const sendValue = ethers.parseEther("10.0");
+      await distributor.sendTransaction({
+        to: splitter.target,
+        value: sendValue,
+      });
+
+      // コントラクトの残高を確認
+      const contractBalanceBefore = await ethers.provider.getBalance(
+        splitter.target
+      );
+      console.log(
+        "contractBalanceBefore:",
+        ethers.formatEther(contractBalanceBefore)
+      );
+      expect(contractBalanceBefore).to.equal(sendValue);
+
+      const ownerBalanceBefore = await ethers.provider.getBalance(
+        owner.address
+      );
+      console.log(
+        "ownerBalanceBefore:",
+        ethers.formatEther(ownerBalanceBefore)
+      );
+      // emergencyWithdrawを呼び出す
+      await splitter.connect(owner).emergencyWithdraw();
+
+      // コントラクトの残高がゼロになっていることを確認
+      const contractBalanceAfter = await ethers.provider.getBalance(
+        splitter.target
+      );
+      console.log(
+        "contractBalanceAfter:",
+        ethers.formatEther(contractBalanceAfter)
+      );
+      expect(contractBalanceAfter).to.equal(0);
+
+      // オーナーの残高が増えていることを確認
+      const ownerBalanceAfter = await ethers.provider.getBalance(owner.address);
+      console.log("ownerBalanceAfter:", ethers.formatEther(ownerBalanceAfter));
+      expect(ownerBalanceAfter).to.be.above(contractBalanceBefore);
     });
   });
 });

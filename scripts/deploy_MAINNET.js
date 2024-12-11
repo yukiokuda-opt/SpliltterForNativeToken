@@ -1,5 +1,5 @@
 require("dotenv").config({ path: ".env" });
-const CONTRACT_OWNER = process.env.CONTRACT_OWNER;
+const CONTRACT_OWNER = process.env.CONTRACT_OWNER_MAINNET;
 
 const hre = require("hardhat");
 
